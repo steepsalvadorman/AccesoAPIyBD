@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SteepTarea3</string>
+    <string name="app_nav">AccesoDBApp</string>
+    <string name="app_init">AccesoDBLogin</string>
+</resources>
