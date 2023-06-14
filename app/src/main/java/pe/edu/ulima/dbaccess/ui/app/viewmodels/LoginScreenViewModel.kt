@@ -71,8 +71,6 @@ class LoginScreenViewModel : ViewModel() {
                 }
             }
         }.start()
-
-
     }
 
 

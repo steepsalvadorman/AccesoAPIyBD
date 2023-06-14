@@ -2,6 +2,7 @@ package pe.edu.ulima.dbaccess.ui.app.viewmodels
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -16,6 +17,7 @@ import androidx.navigation.NavHostController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import pe.edu.ulima.dbaccess.activities.AppActivity
 import pe.edu.ulima.dbaccess.configs.BackendClient
 import pe.edu.ulima.dbaccess.configs.LocalDB
 import pe.edu.ulima.dbaccess.models.beans.Pokemon
@@ -81,12 +83,17 @@ class SplashScreenViewModel: ViewModel() {
                 val database = LocalDB.getDatabase(context)
                 val userDao = database.usuarioDao()
                 val userCount = userDao.getUserCount()
+                val user = userDao.getUsuarios()
+                val idUser = user[0].id
 
                 withContext(Dispatchers.Main) {
                     if (userCount != 0) {
                         // hay un usuario en db
+                        val appActivity = Intent(context, AppActivity::class.java)
+                        appActivity.putExtra("user_id", idUser)
+                        context.startActivity(appActivity)
                         withContext(Dispatchers.Main) {
-                            navController.navigate("/home")
+                            navController.navigate("home")
                         }
                     } else {
                         // no hay un usuario en db
@@ -95,6 +102,7 @@ class SplashScreenViewModel: ViewModel() {
                         }
                     }
                 }
+
             } catch (e: Exception) {
                 // Manejar excepción y mostrar error en el Logcat
                 val errorMessage = "Error: No se pudo acceder a la base de datos"
@@ -104,6 +112,8 @@ class SplashScreenViewModel: ViewModel() {
                     Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             }
+
+
         }
     }
 

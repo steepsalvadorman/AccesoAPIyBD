@@ -35,6 +35,7 @@ fun AppNavigation(
         navController = navController,
         startDestination = "home"
     ) {
+
         composable(route = "home") {
             HomeScreen(
                 goToEditPerfilScreen = {
