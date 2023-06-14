@@ -13,6 +13,7 @@ import pe.edu.ulima.dbaccess.navigations.LoginNavigation
 import pe.edu.ulima.dbaccess.ui.app.viewmodels.CreateAccountScreenViewModel
 import pe.edu.ulima.dbaccess.ui.app.viewmodels.LoginScreenViewModel
 import pe.edu.ulima.dbaccess.ui.app.viewmodels.ResetPasswordScreenViewModel
+import pe.edu.ulima.dbaccess.ui.app.viewmodels.SplashScreenViewModel
 import pe.edu.ulima.dbaccess.ui.theme.AccesoDBTheme
 
 class LoginActivity : ComponentActivity() {
@@ -23,6 +24,7 @@ class LoginActivity : ComponentActivity() {
         var loginScreenViewModel = LoginScreenViewModel()
         var resetPasswordScreenViewModel = ResetPasswordScreenViewModel()
         var createAccountScreenViewModel = CreateAccountScreenViewModel()
+        val splashScreenViewModel = SplashScreenViewModel()
         // screen navigation
         setContent {
             AccesoDBTheme {
@@ -36,7 +38,7 @@ class LoginActivity : ComponentActivity() {
                         loginScreenViewModel = loginScreenViewModel,
                         createAccountScreenViewModel = createAccountScreenViewModel,
                         resetPasswordScreenViewModel = resetPasswordScreenViewModel,
-
+                        splashScreenViewModel = splashScreenViewModel
                         )
                     //PokemonDetailScreen(viewModel = PokemonDetailViewModel())
                     //TouchScreen()

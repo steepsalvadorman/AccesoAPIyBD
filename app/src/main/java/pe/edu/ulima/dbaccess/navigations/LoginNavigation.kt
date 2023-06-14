@@ -17,12 +17,14 @@ import pe.edu.ulima.dbaccess.ui.app.screens.SplashScreen
 import pe.edu.ulima.dbaccess.ui.app.viewmodels.CreateAccountScreenViewModel
 import pe.edu.ulima.dbaccess.ui.app.viewmodels.LoginScreenViewModel
 import pe.edu.ulima.dbaccess.ui.app.viewmodels.ResetPasswordScreenViewModel
+import pe.edu.ulima.dbaccess.ui.app.viewmodels.SplashScreenViewModel
 
 @Composable
 fun LoginNavigation(
     loginScreenViewModel: LoginScreenViewModel,
     resetPasswordScreenViewModel: ResetPasswordScreenViewModel,
     createAccountScreenViewModel: CreateAccountScreenViewModel,
+    splashScreenViewModel: SplashScreenViewModel
 ){
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -37,7 +39,10 @@ fun LoginNavigation(
             route = "/",
             arguments = listOf()
         ){ entry ->
-            SplashScreen()
+            SplashScreen(
+                splashScreenViewModel,
+                navController
+            )
             Handler().postDelayed({
                 navController.navigate("/login") //Despues de 2 segundos vamos a /login/
             }, 2000)

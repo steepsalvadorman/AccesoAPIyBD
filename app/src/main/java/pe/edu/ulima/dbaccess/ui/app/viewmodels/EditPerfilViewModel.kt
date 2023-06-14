@@ -7,7 +7,12 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pe.edu.ulima.dbaccess.configs.BackendClient
+import pe.edu.ulima.dbaccess.configs.LocalDB
 import pe.edu.ulima.dbaccess.models.beans.Usuario
 import pe.edu.ulima.dbaccess.services.UsuarioService
 import retrofit2.Call
@@ -240,7 +245,7 @@ class EditPerfilViewModel : ViewModel() {
         val usuario = _usuario.value
         val correo = _correo.value
 
-        Thread {
+        viewModelScope.launch {
             try {
                 val nuevoUsuario = Usuario(
                     id = userId.toInt(),
@@ -250,19 +255,32 @@ class EditPerfilViewModel : ViewModel() {
                 )
 
                 val apiService = BackendClient.buildService(UsuarioService::class.java)
-                val response = apiService.updateUser(nuevoUsuario).execute()
 
-                activity.runOnUiThread {
-                    if (response.isSuccessful) {
-                        val responseBody = response.body()
-                        if (responseBody != null) {
-                            updateMensaje(responseBody)
+
+                withContext(Dispatchers.IO) {
+                    val response = apiService.updateUser(nuevoUsuario).execute()
+                    if (response.code() == 200) {
+                        val database = LocalDB.getDatabase(activity)
+                        val userDao = database.usuarioDao()
+                        if(userDao.getUserCount() >= 1){
+                            userDao.deleteAllUsuarios()
+                            userDao.insertUsuario(nuevoUsuario)
+                            updateMensaje("Usuarios borrados y uno insertado")
+                        } else {
+                            try {
+                                userDao.insertUsuario(nuevoUsuario)
+                                updateMensaje("Usuario guardado en la BD y el Backend")
+                            } catch (e: Exception){
+                                val errorMessage = "Error: ${e.message}"
+                                updateMensaje(errorMessage)
+                                Log.d("ActualizarPerfil", errorMessage)
+                            }
                         }
+
                     } else {
-                        val errorMessage = response.errorBody()?.string() ?: "Error: Ingrese los datos correctamente"
-                        updateMensaje("Error: $errorMessage")
-                        Log.d("ActualizarPerfil", errorMessage)
+                        updateMensaje("No se actualizo")
                     }
+
                 }
             } catch (e: Exception) {
                 // Manejar excepción
@@ -270,8 +288,9 @@ class EditPerfilViewModel : ViewModel() {
                 updateMensaje(errorMessage)
                 Log.d("ActualizarPerfil", errorMessage)
             }
-        }.start()
+        }
     }
+
 
 
 

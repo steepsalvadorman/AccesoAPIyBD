@@ -8,8 +8,8 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 
 
 object BackendClient {
-    const val BASE_URL = "https://backendnavegacion.steepsalvador.repl.co/"
-    //const val BASE_URL ="http://192.168.0.108:8000/"
+    //const val BASE_URL = "https://backendnavegacion.steepsalvador.repl.co/"
+    const val BASE_URL ="http://192.168.0.108:8000/"
 
 
     val gson: Gson = GsonBuilder()

@@ -13,7 +13,7 @@ import pe.edu.ulima.dbaccess.models.beans.Usuario
 
 @Database(
     entities =[Pokemon::class, ProfileKey::class, Usuario::class],
-    version = 2
+    version = 1
 )
 abstract class LocalDB : RoomDatabase() {
     abstract fun pokemonDao(): PokemonDao

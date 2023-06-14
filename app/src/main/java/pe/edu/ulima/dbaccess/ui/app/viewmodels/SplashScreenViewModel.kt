@@ -10,6 +10,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import pe.edu.ulima.dbaccess.configs.BackendClient
 import pe.edu.ulima.dbaccess.configs.LocalDB
 import pe.edu.ulima.dbaccess.models.beans.Pokemon
@@ -69,8 +75,37 @@ class SplashScreenViewModel: ViewModel() {
         }
     }
 
+    fun checkUser(context: Context, navController: NavController) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val database = LocalDB.getDatabase(context)
+                val userDao = database.usuarioDao()
+                val userCount = userDao.getUserCount()
 
+                withContext(Dispatchers.Main) {
+                    if (userCount != 0) {
+                        // hay un usuario en db
+                        withContext(Dispatchers.Main) {
+                            navController.navigate("/home")
+                        }
+                    } else {
+                        // no hay un usuario en db
+                        withContext(Dispatchers.Main) {
+                            navController.navigate("/login")
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                // Manejar excepción y mostrar error en el Logcat
+                val errorMessage = "Error: No se pudo acceder a la base de datos"
+                Log.e("CheckUser", errorMessage, e)
 
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
 
 }

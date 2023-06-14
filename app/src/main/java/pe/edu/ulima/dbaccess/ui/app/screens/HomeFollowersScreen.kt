@@ -13,12 +13,14 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.material.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,10 +64,13 @@ fun HomeFollowersScreen(
     val selectedTabIndex = remember { mutableStateOf(0) }
 
     Column {
-        Text(
-            text = "Usuario: $usuario", // Mostrar el nombre del usuario logeado
-            modifier = Modifier.padding(16.dp)
-        )
+        TopAppBar() {
+            Text(
+                text = "Usuario: $usuario", // Mostrar el nombre del usuario logeado
+                color = Color.White,
+                modifier = Modifier.padding(start = 16.dp)
+            )
+        }
         TabRow(
             selectedTabIndex = selectedTabIndex.value,
             modifier = Modifier.fillMaxWidth()

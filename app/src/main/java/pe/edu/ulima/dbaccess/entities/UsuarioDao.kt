@@ -38,7 +38,8 @@ interface UsuarioDao {
     @Query("SELECT name FROM usuarios WHERE user = :user")
     fun getUsuarioNombreByUser(user: String): String?
 
-
+    @Query("SELECT COUNT(*) FROM usuarios")
+    fun getUserCount(): Int
 
 }
 
