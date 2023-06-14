@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -283,13 +284,15 @@ fun EditPerfilScreen(
                                         Text(text = "Contraseña Antigua")
                                     },
                                     placeholder = {
-                                        Text(text= "")
+                                        Text(text = "")
                                     },
                                     singleLine = true,
                                     colors = TextFieldDefaults.textFieldColors(
                                         backgroundColor = Color.Transparent
-                                    )
+                                    ),
+                                    visualTransformation = PasswordVisualTransformation()
                                 )
+
                                 TextField(
                                     value = contraseñanueva,
                                     onValueChange = {
@@ -305,7 +308,8 @@ fun EditPerfilScreen(
                                     singleLine = true,
                                     colors = TextFieldDefaults.textFieldColors(
                                         backgroundColor = Color.Transparent
-                                    )
+                                    ),
+                                    visualTransformation = PasswordVisualTransformation()
                                 )
                                 TextField(
                                     value = contraseñarepetida,
@@ -322,7 +326,8 @@ fun EditPerfilScreen(
                                     singleLine = true,
                                     colors = TextFieldDefaults.textFieldColors(
                                         backgroundColor = Color.Transparent
-                                    )
+                                    ),
+                                    visualTransformation = PasswordVisualTransformation()
                                 )
 
                                 if(mensaje2.contains("Error")){
