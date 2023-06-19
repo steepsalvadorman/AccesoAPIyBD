@@ -223,13 +223,15 @@ class EditPerfilViewModel : ViewModel() {
         val correo = _correo.value
         val usuario = _usuario.value
 
-        if (nombre.isNullOrEmpty()) {
-            updateMensaje("Error: El nombre es obligatorio")
-        } else if (correo.isNullOrEmpty() || !isValidEmail(correo)) {
-            updateMensaje("Error: El correo electrónico no es válido")
+        if (nombre.isNullOrEmpty() && correo.isNullOrEmpty() && usuario.isNullOrEmpty()) {
+            updateMensaje("Error: Todos los campos son obligatorios")
+        } else if (nombre.isNullOrEmpty()){
+            updateMensaje("Error: Debe ingresar el nombre")
         } else if (usuario.isNullOrEmpty()) {
             updateMensaje("Error: El usuario es obligatorio")
-        } else {
+        } else if (correo.isNullOrEmpty() || !isValidEmail(correo)) {
+            updateMensaje("Error: El correo es invalido")
+        }else {
             actualizarPerfil(userId, activity)
         }
 
